@@ -1,83 +1,114 @@
 (ns sicp.data-symbol)
 
-(defn memq [item symbols]
-  (cond
-    (empty? symbols) false
-    (= item (first symbols)) symbols
-    :else (recur item (rest symbols))))
-
-(defn equal? [items-one items-two]
-  (cond
-    (and (seq? items-one) (seq? items-two))
-    (if (and (empty? items-one) (empty? items-two))
-      true
-      (and
-        (equal? (first items-one) (first items-two))
-        (recur (rest items-one) (rest items-two))))
-    (and (not (seq? items-one)) (not (seq? items-two)))
-    (= items-one items-two)
-    :else false))
-
 (defn variable? [expression]
-  (symbol? expression))
+                                  (symbol? expression))
 
-(defn sum? [expression]
-  (= '+ (first expression)))
+    (defn sum? [expression]
+      (= '+ (first expression)))
 
-(defn product? [expression]
-  (= '* (first expression)))
+    (defn product? [expression]
+      (= '* (first expression)))
 
-(defn same-variable? [expression variable]
-  (and (variable? expression) (= expression variable)))
+    (defn exponentiation? [expression]
+      (= '** (first expression)))
 
-(defn make-sum [x y]
-  (cond
-    (= 0 x) y
-    (= 0 y) x
-    (and (number? x) (number? y)) (+ x y)
-    :else (list '+ x y)))
 
-(defn addend [expression]
-  {:pre [(= 3 (count expression))]}
-  (second expression))
+    (defn same-variable? [expression variable]
+      (and (variable? expression) (= expression variable)))
 
-(defn augend [expression]
-  {:pre [(= 3 (count expression))]}
-  (second (rest expression)))
+    (defn all-numbers? [in-list]
+      (letfn [
+               (iter [still-number remaining]
+                 (cond
+                   (not still-number) still-number
+                   (empty? remaining) true
+                   :else (recur
+                           (and still-number (number? (first remaining)))
+                           (rest remaining))))]
+        (iter true in-list)))
 
-(defn make-product [x y]
-  (cond
-    (= 0 x) 0
-    (= 0 y) 0
-    (= 1 x) y
-    (= 1 y) x
-    (and (number? x) (number? y)) (* x y)
-    :else ('* x y)))
+    (defn make-sum
+      ([x y] (make-sum [x y]))
+      ([[_ :as expression]]
+        (cond
+          (= 1 (count expression)) (first expression)
+          (all-numbers? expression) (apply + expression)
+          (:simplified (meta expression)) (cons '+ expression)
+          :else (make-sum
+                  (with-meta
+                    (filter (fn [x] (not= 0 x)) expression)
+                    {:simplified true})))))
 
-(defn multiplier [expression]
-  {:pre [(= 3 (count expression))]}
-  (second expression))
+    (defn addend [expression]
+      {:pre [(>= (count expression) 3)]}
+      (second expression))
 
-(defn multiplicand [expression]
-  {:pre [(= 3 (count expression))]}
-  (second (rest expression)))
+    (defn augend [[op _ & cdr :as expression]]
+      {:pre [(>= (count expression) 3)]}
+      (make-sum cdr))
 
-(defn deriv [expression variable]
-  (cond
-    (number? expression)
-     0
-    (variable? expression)
-    (if (same-variable? expression variable) 1 0)
-    (sum? expression)
-    (make-sum
-      (deriv (addend expression) variable)
-      (deriv (augend expression) variable))
-    (product? expression)
-    (make-sum
+    (defn make-product
+      ([x y] (make-product [x y]))
+      ([[_ :as expression]]
+        (cond
+          (= 1 (count expression)) (first expression)
+          (> (count (filter (fn [x] (= 0 x)) expression)) 0) 0
+          (all-numbers? expression) (apply * expression)
+          (:simplified (meta expression)) (cons '* expression)
+          :else (recur
+                  (with-meta
+                    (filter (fn [x] (not (= 1 x))) expression)
+                    {:simplified true})))))
+
+    (defn multiplier [expression]
+      {:pre [(>= (count expression) 3)]}
+      (second expression))
+
+    (defn multiplicand [[op _ & cdr :as expression]]
+      {:pre [(>= (count expression) 3)]}
+      (make-product cdr))
+
+    (defn make-exponentiation [base exponent]
+      (cond
+        (= 0 exponent) 1
+        (= 1 exponent) base
+        (and (number? base) (= 1 base)) 1
+        (and (number? base) (= 0 base)) 0
+        :else (list '** base exponent)))
+
+    (defn base [from-exponentiation]
+      {:pre [(= 3 (count from-exponentiation))]}
+      (second from-exponentiation))
+
+    (defn exponent [from-exponentiation]
+      {:pre [(= 3 (count from-exponentiation))]}
+      (second (rest from-exponentiation)))
+
+
+    (defn deriv [expression variable]
+      (println expression " derived by " variable)
+      (cond
+        (number? expression)
+        0
+        (variable? expression)
+        (if (same-variable? expression variable) 1 0)
+        (sum? expression)
+        (make-sum
+          (deriv (addend expression) variable)
+          (deriv (augend expression) variable))
+        (product? expression)
+        (make-sum
+          (make-product
+            (multiplier expression)
+            (deriv (multiplicand expression) variable))
+          (make-product
+            (deriv (multiplier expression) variable)
+            (multiplicand expression)))
+        (exponentiation? expression)
+    (do
       (make-product
-        (multiplier expression)
-        (deriv (multiplicand expression) variable))
-      (make-product
-        (deriv (multiplier expression) variable)
-        (multiplicand expression)))
+        (make-product
+          (exponent expression)
+          (make-exponentiation (base expression) (dec (exponent expression))))
+        (deriv (base expression) variable)))
     :else (println "Invalid expression")))
