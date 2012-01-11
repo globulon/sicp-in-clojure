@@ -41,6 +41,13 @@
 (defn- span-zero [interval]
 	(>= 0 (* (upper-bound interval) (lower-bound interval))))
 
+(defn width-interval [from-interval]
+  (/ (-
+       (upper-bound from-interval)
+       (lower-bound from-interval))
+    2.0))
+
+
 (defn div-intervals [first-interval second-interval]
 	(let [width (width-interval second-interval)]
 		(if (span-zero second-interval) 
@@ -51,11 +58,6 @@
 					(/ 1.0 (upper-bound second-interval))
 					(/ 1.0 (lower-bound second-interval)))))))
 
-(defn width-interval [from-interval]
-	(/ (- 
-		(upper-bound from-interval) 
-		(lower-bound from-interval)) 
-		2.0))
 
 (defn make-center-width [center-value width-value]
 	(make-interval (- center-value width-value) (+ center-value width-value)))

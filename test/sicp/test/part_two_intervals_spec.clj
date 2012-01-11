@@ -1,6 +1,6 @@
 (ns sicp.test.part-two-intervals-spec
-	(:use [ sicp.part-two-intervals])
-	(:use [clojure.test]))
+	(:use sicp.part-two-intervals)
+	(:use clojure.test))
 
 (deftest upper-bopund-of-interval-should-be-bound
 	(is (= 5 (lower-bound (make-interval 5 10)))))

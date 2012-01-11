@@ -1,4 +1,4 @@
-(ns sicp.data-symbol-spec
+(ns sicp.test.data-symbol-spec
   (:use sicp.data-symbol)
   (:use clojure.test))
 
