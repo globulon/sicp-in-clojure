@@ -13,8 +13,6 @@
 (defmulti make-from-real-imag (fn [x y] :real-imag-constructor))
 (defmulti make-from-mag-ang (fn [r theta] :mag-ang-constructor))
 
-
-
 (defn add-complex [z1 z2]
   (make-from-real-imag (+ (real-part z1) (real-part z2))
     (+ (imag-part z1) (imag-part z2))))
