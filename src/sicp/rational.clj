@@ -32,31 +32,31 @@
 (defn denum [from-rat] 
 	(second from-rat))
 
-(defn add-rat [num-one num-two]
+(defn- add-rat [num-one num-two]
 	(make-rat
 		(+ 
 			(* (numer num-one) (denum num-two))
 			(* (numer num-two) (denum num-one)))
 		(* (denum num-one) (denum num-two))))
 
-(defn sub-rat [num-one num-two]
+(defn- sub-rat [num-one num-two]
 	(make-rat
 		(- 
 			(* (numer num-one) (denum num-two))
 			(* (numer num-two) (denum num-one)))
 		(* (denum num-one) (denum num-two))))		
 
-(defn mul-rat [num-one num-two]
+(defn- mul-rat [num-one num-two]
 	(make-rat
 		(* (numer num-one) (numer num-two))
 		(* (denum num-one) (denum num-two))))				
 
-(defn div-rat [num-one num-two]
+(defn- div-rat [num-one num-two]
 	(make-rat
 		(* (numer num-one) (denum num-two))
 		(* (denum num-one) (numer num-two))))
 
-(defn equal? [num-one num-two]
+(defn- equal? [num-one num-two]
 	(= 
 		(* (numer num-one) (denum num-two))
 		(* (numer num-two) (denum num-one))))		

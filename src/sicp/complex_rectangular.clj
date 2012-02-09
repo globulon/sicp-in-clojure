@@ -11,8 +11,11 @@
 
 (defn rectangular-complex[]
   (reify ComplexConstructor
-    (make-from-real-imag-constructor [self x y] (->Rectangular x y))
+    (make-from-real-imag-constructor [self x y]
+      (make-complex (->Rectangular x y)))
 
     (make-from-mag-ang-constructor [self r t]
-      (->Rectangular (* r (Math/cos t)) (* r (Math/sin t))))))
+      (make-complex (->Rectangular
+                      (* r (Math/cos t))
+                      (* r (Math/sin t)))))))
 

@@ -15,3 +15,5 @@
 (deftest complex-polar-should-bind-real-part
   (is (< 0.0001 (Math/abs  (- 1.0 (imag-part (->Polar 1 Math/PI))))))
   (is (< 0.0001 (Math/abs  (real-part (->Polar 1 Math/PI))))))
+
+;(run-tests)

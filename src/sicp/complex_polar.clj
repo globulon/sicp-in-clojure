@@ -1,5 +1,6 @@
 (ns sicp.complex-polar
   (:use sicp.core)
+  (:use sicp.generic-arithmetic)
   (:use sicp.complex))
 
 (defrecord Polar [radius theta]
@@ -13,12 +14,13 @@
 
 (defn polar-complex []
   (reify ComplexConstructor
+
     (make-from-real-imag-constructor [self x y]
-      (->Polar (Math/sqrt (+ (square x) (square y))) (Math/atan2 y x)))
+      (make-complex
+        (->Polar
+          (Math/sqrt (+ (square x) (square y)))
+          (Math/atan2 y x))))
 
-    (make-from-mag-ang-constructor [self r t] (->Polar r t))))
-
-
-
-
+    (make-from-mag-ang-constructor [self r t]
+      (make-complex (->Polar r t)))))
 
