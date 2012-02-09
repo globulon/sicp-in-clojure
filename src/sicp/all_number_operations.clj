@@ -1,5 +1,13 @@
 (ns sicp.all-number-operations
-  (:use sicp.generic-arithmetic))
+  ^{:doc "Install all numbers library in order to have all
+          generic operations"}
+  (:use [sicp
+         core
+         clojure-number
+         complex
+         complex-polar
+         complex-rectangular
+         rational]))
 
 
 

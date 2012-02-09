@@ -1,6 +1,6 @@
 (ns sicp.complex
+  ^{:doc "Basically answer too exercise 2.77"}
   (:use sicp.generic-arithmetic))
-
 (def complex-type :complex)
 
 (defn make-complex [data]
