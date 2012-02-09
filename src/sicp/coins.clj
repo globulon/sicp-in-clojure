@@ -9,7 +9,6 @@
 (defn first-denomination [coin-values]
 	(first coin-values))
 
-
 (defn cc [amount coin-values]
 	(cond 
 		(= amount 0) 1

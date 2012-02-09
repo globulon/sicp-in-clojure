@@ -1,4 +1,5 @@
-(ns sicp.complex)
+(ns sicp.complex
+  (:use sicp.generic-arithmetic))
 
 (defprotocol ComplexSelector
   (magnitude [this])
@@ -28,4 +29,5 @@
 (defn div-complex [z1 z2]
   (make-from-mag-ang (/ (magnitude z1) (magnitude z2))
     (- (angle z1) (angle z2))))
+
 
