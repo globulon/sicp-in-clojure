@@ -29,4 +29,4 @@
   (is (not (equ? (make-rat 1 2) (make-rat 3 4)))))
 
 
-(run-tests)
+;(run-tests)

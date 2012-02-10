@@ -35,4 +35,4 @@
   (is (not (equ? (make-clj 1) (make-clj 2)))))
 
 
-(run-tests )
+;(run-tests )
