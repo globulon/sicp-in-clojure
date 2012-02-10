@@ -41,4 +41,13 @@
           (make-from-mag-ang 6 0.9)
           (make-from-mag-ang 2 0.5)))))
 
-;(run-tests )
+(deftest equ-should-return-true-for-identical-numbers
+  (is (equ? (make-from-mag-ang 1 1) (make-from-mag-ang 1 1)))
+  (is (equ? (make-from-real-imag 1 1) (make-from-real-imag 1 1))))
+
+(deftest equ-should-return-false-for-identical-numbers
+  (is (not (equ? (make-from-mag-ang 1 2) (make-from-mag-ang 3 4))))
+  (is (not (equ? (make-from-real-imag 1 2) (make-from-real-imag 3 41)))))
+
+
+(run-tests )

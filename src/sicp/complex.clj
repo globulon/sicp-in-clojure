@@ -35,6 +35,12 @@
   (make-from-mag-ang (/ (magnitude z1) (magnitude z2))
     (- (angle z1) (angle z2))))
 
+;;Not good as equ should be propagated to undelaying
+;;implementations
+(defn- equal? [z1 z2]
+  (and
+    (= (real-part z1) (real-part z2))
+    (= (imag-part z1) (imag-part z2))))
 
 (defmethod add [:complex :complex] [z1 z2]
   (add-complex z1 z2))
@@ -47,4 +53,7 @@
 
 (defmethod mul [:complex :complex] [z1 z2]
   (mul-complex z1 z2))
+
+(defmethod equ? [:complex :complex] [z1 z2]
+  (equal? z1 z2))
 

@@ -28,4 +28,11 @@
 (deftest div-clojure-numbers-should-provide-result
   (is (= (make-clj 2) (sub (make-clj 4) (make-clj 2)))))
 
+(deftest equ-should-return-true-on-numbers-equality
+  (is (equ? (make-clj 1) (make-clj 1))))
+
+(deftest equ-should-return-false-on-numbers-equality
+  (is (not (equ? (make-clj 1) (make-clj 2)))))
+
+
 (run-tests )

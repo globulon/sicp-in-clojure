@@ -61,7 +61,7 @@
 		(* (numer num-one) (denum num-two))
 		(* (numer num-two) (denum num-one))))		
 
-(defn print-rat [from-number]
+(defn- print-rat [from-number]
 	(println 
 		(str 
 			(numer from-number) 
@@ -80,3 +80,8 @@
 
 (defmethod div [:rational :rational] [x y]
   (div-rat x y))
+
+(defmethod
+  ^{:doc "ex 2.78"}
+  equ? [:rational :rational] [x y]
+  (equal? x y))

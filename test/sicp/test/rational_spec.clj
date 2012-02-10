@@ -22,4 +22,11 @@
   (is (= (make-rat  1 2) (div (make-rat 1 1) (make-rat 2 1))))
   (is (= rat-type (tag-in (div (make-rat 1 1) (make-rat 2 1))))))
 
+(deftest equ-should-return-true-when-rationals-are-equals
+  (is (equ? (make-rat 1 2) (make-rat 1 2))))
+
+(deftest equ-should-return-false-when-rationals-are-not-equals
+  (is (not (equ? (make-rat 1 2) (make-rat 3 4)))))
+
+
 (run-tests)

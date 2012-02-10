@@ -1,4 +1,5 @@
 (ns sicp.clojure-number
+  ^ {:doc "Supposedly match ex 2.78"}
   (:use sicp.generic-arithmetic))
 
 (def clj-type :clojure)
@@ -7,6 +8,9 @@
   (if (= clj-type (tag-in x))
     (:value x)
     x))
+
+(defn- equal? [x y]
+  (= (:value x) (:value y)))
 
 (defn make-clj [data]
   (if (number? data)
@@ -25,5 +29,5 @@
 (defmethod div [:clojure :clojure] [x y]
   (make-clj (/ (clj-data x) (clj-data y))))
 
-
-
+(defmethod equ? [:clojure :clojure] [x y]
+  (equal? x y))
