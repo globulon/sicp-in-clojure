@@ -10,9 +10,7 @@
          complex-rectangular
          rational]))
 
-(def tower [clj-number rat-type complexe-type])
-
-
+(def tower [clj-type rat-type complex-type])
 
 (defmulti raise (fn [x] (tag-in x)))
 
