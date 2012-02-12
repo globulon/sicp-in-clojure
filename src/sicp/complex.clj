@@ -1,7 +1,8 @@
 (ns sicp.complex
   ^{:doc "Basically answer too exercise 2.77"}
   (:use sicp.generic-arithmetic))
-(def complex-type :complex)
+
+(def complex-type ::complex)
 
 (defn make-complex [data]
   (tagged data complex-type))
@@ -42,18 +43,18 @@
     (= (real-part z1) (real-part z2))
     (= (imag-part z1) (imag-part z2))))
 
-(defmethod add [:complex :complex] [z1 z2]
+(defmethod add [complex-type complex-type] [z1 z2]
   (add-complex z1 z2))
 
-(defmethod sub [:complex :complex] [z1 z2]
+(defmethod sub [complex-type complex-type] [z1 z2]
   (sub-complex z1 z2))
 
-(defmethod div [:complex :complex] [z1 z2]
+(defmethod div [complex-type complex-type] [z1 z2]
   (div-complex z1 z2))
 
-(defmethod mul [:complex :complex] [z1 z2]
+(defmethod mul [complex-type complex-type] [z1 z2]
   (mul-complex z1 z2))
 
-(defmethod equ? [:complex :complex] [z1 z2]
+(defmethod equ? [complex-type complex-type] [z1 z2]
   (equal? z1 z2))
 

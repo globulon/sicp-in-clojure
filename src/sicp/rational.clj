@@ -1,7 +1,7 @@
 (ns sicp.rational
   (:use sicp.generic-arithmetic))
 
-(def rat-type :rational)
+(def rat-type ::rational)
 
 (defn- gcd [a b]
 	(cond 
@@ -69,19 +69,19 @@
 			(denum from-number) "\n"))
 	nil)
 
-(defmethod add [:rational :rational] [x y]
+(defmethod add [rat-type rat-type] [x y]
   (add-rat x y))
 
-(defmethod sub [:rational :rational] [x y]
+(defmethod sub [rat-type rat-type] [x y]
   (sub-rat x y))
 
-(defmethod mul [:rational :rational] [x y]
+(defmethod mul [rat-type rat-type] [x y]
   (mul-rat x y))
 
-(defmethod div [:rational :rational] [x y]
+(defmethod div [rat-type rat-type] [x y]
   (div-rat x y))
 
 (defmethod
   ^{:doc "ex 2.78"}
-  equ? [:rational :rational] [x y]
+  equ? [rat-type rat-type] [x y]
   (equal? x y))

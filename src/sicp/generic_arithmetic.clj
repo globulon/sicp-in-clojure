@@ -9,8 +9,9 @@
 (defn selected-types [x y]
   [(tag-in x) (tag-in y)])
 
-(defmulti add  selected-types)
-(defmulti sub  selected-types)
-(defmulti mul  selected-types)
-(defmulti div  selected-types)
-(defmulti equ? selected-types)
+;(defmulti raise selected-types)
+(defmulti add   selected-types)
+(defmulti sub   selected-types)
+(defmulti mul   selected-types)
+(defmulti div   selected-types)
+(defmulti equ?  selected-types)

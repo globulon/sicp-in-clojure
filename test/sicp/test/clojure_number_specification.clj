@@ -12,9 +12,9 @@
 
 (deftest make-clojure-with-number-should-tagged-number
   (is (= {:value 1} (make-clj 1)))
-  (is (= :clojure (tag-in (make-clj 1))))
+  (is (= clj-type (tag-in (make-clj 1))))
   (is (= {:value 2.0} (make-clj 2.0)))
-  (is (= :clojure (tag-in (make-clj 2.0)))))
+  (is (= clj-type (tag-in (make-clj 2.0)))))
 
 (deftest add-clojure-numbers-should-provide-result
   (is (= (make-clj 3) (add (make-clj 1) (make-clj 2)))))
@@ -35,4 +35,4 @@
   (is (not (equ? (make-clj 1) (make-clj 2)))))
 
 
-;(run-tests )
+(run-tests)

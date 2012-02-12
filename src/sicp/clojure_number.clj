@@ -2,9 +2,9 @@
   ^ {:doc "Supposedly match ex 2.78"}
   (:use sicp.generic-arithmetic))
 
-(def clj-type :clojure)
+(def clj-type ::clojure)
 
-(defn- clj-data [x]
+(defn clj-data [x]
   (if (= clj-type (tag-in x))
     (:value x)
     x))
@@ -13,21 +13,21 @@
   (= (:value x) (:value y)))
 
 (defn make-clj [data]
-  (if (number? data)
+  (if (integer? data)
     (tagged {:value data} clj-type)
     data))
 
-(defmethod add [:clojure :clojure] [x y]
+(defmethod add [clj-type clj-type] [x y]
   (make-clj (+ (clj-data x) (clj-data y))))
 
-(defmethod sub [:clojure :clojure] [x y]
+(defmethod sub [clj-type clj-type] [x y]
   (make-clj (- (clj-data x) (clj-data y))))
 
-(defmethod mul [:clojure :clojure] [x y]
+(defmethod mul [clj-type clj-type] [x y]
   (make-clj (* (clj-data x) (clj-data y))))
 
-(defmethod div [:clojure :clojure] [x y]
+(defmethod div [clj-type clj-type] [x y]
   (make-clj (/ (clj-data x) (clj-data y))))
 
-(defmethod equ? [:clojure :clojure] [x y]
+(defmethod equ? [clj-type clj-type] [x y]
   (equal? x y))
