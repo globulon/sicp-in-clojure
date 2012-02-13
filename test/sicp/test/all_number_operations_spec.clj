@@ -27,12 +27,20 @@
 (deftest raise-to-complex-integer-should-provide-complex-from-integer
   (is (= (make-from-real-imag 2.0 0) (raise-to complex-type (make-clj 2)))))
 
+(deftest raise-to-complex-integer-should-provide-complex-from-integer
+  (is (= (make-from-real-imag 2 0) (raise-to complex-type (make-from-real-imag 2 0)))))
+
+
 (deftest raise-to-rat-integer-should-provide-rat-from-integer
   (is (= (make-rat 2 1) (raise-to rat-type (make-clj 2)))))
 
 (deftest raise-to-real-integer-should-provide-real-from-integer
   (is (= (make-real 2.0) (raise-to real-type (make-clj 2)))))
 
+(deftest higher-type-in-arguments-should-match
+  (is (= :sicp.complex/complex (higher-type-in (make-clj 1) (make-from-real-imag 2 1)))))
 
+(deftest add-integer-with-complex-should-create-a-new-complex
+  (is (= (make-from-real-imag 3.0 1) (add (make-clj 1) (make-from-real-imag 2 1)))))
 
 (run-tests)

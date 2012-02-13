@@ -11,6 +11,8 @@
          rational
          real-number]))
 
+(remove-all-methods higher-type-in)
+
 (def rectangular-datum (rectangular-complex))
 (def polar-datum (polar-complex))
 
@@ -20,7 +22,12 @@
 (defmethod make-from-mag-ang :mag-ang-constructor [r theta]
   (make-complex (make-from-mag-ang-constructor polar-datum r theta)))
 
-(defmulti raise (fn [data] (tag-in data)))
+(def tower {clj-type 0 rat-type 1 real-type 2 complex-type 3})
+
+(defmethod higher-type-in :default [& xs]
+  (key (first
+    (max-key val
+      (select-keys tower (map tag-in xs))))))
 
 (defmethod raise clj-type [x]
   (make-rat (clj-data x) 1))
@@ -31,30 +38,8 @@
 (defmethod raise real-type [x]
   (make-from-real-imag (real-value x) 0))
 
-(def tower {clj-type 0 rat-type 1 real-type 2 complex-type 3})
+(defmethod raise complex-type [x] x)
 
-(defn- higher-type-in [& xs]
-  (first
-    (apply max-key val
-      (select-keys tower (map tag-in xs)))))
-
-(defn raise-to [target-type x]
-  (if (= target-type (tag-in x))
-    x
-    (recur target-type (raise x))))
-
-(defn raise-arguments [& xs]
-  (let [target-type (higher-type-in xs)]
-    (recur (raise-to target-type xs))))
-
-;(defmethod add [complex-type clj-type] [x y]
-;  (add ))
-
-;(defmulti add   selected-types)
-;(defmulti sub   selected-types)
-;(defmulti mul   selected-types)
-;(defmulti div   selected-types)
-;(defmulti equ?  selected-types)
 
 
 
